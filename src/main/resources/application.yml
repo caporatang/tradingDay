@@ -51,20 +51,6 @@ spring:
               required: true
             auth: false
 
-# File Server - TODO: profiles setting to Move
-#  servlet:
-#      multipart:
-#         enabled: true
-#         max-file-size: 100MB
-#         max-request-size: 150MB
-#         file-size-threshold: 2KB
-##         location: /Users/seokjunKang/intellij-gradle/day-file/
-#         location: /Users/taeil/desktop/
-
-
-#file.dir: /Users/seokjunKang/intellij-gradle/day-file/
-
-
 ---
 # H2
   spring:

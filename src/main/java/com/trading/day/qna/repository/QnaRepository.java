@@ -6,10 +6,12 @@ import com.trading.day.qna.domain.Qna;
 import com.trading.day.qna.domain.QnaDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -27,7 +29,8 @@ import java.util.Optional;
  * -------------------------------------------------------
  *               김태일                       최초생성
  */
-public interface QnaRepository extends JpaRepository<Qna,Long> {
+@Repository
+public interface QnaRepository extends JpaRepository<Qna,Long>, QnaCustomRepository {
 
     Qna findByQnaId(Long QnaId);
     Qna findByQnaIdAndPwd(Long qnaId, String pwd);
@@ -36,5 +39,13 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
     Page<Qna> findAll(Pageable pageable);
     // 조회
     List<Qna> findByWriter(String writer);
+
+    @EntityGraph(attributePaths = "answers")
+    @Query("select q from Qna q")
+    List<Qna> findAllEntityGraph();
+
+    @Query("select q from Qna q join fetch q.answers")
+    List<Qna> findAllByFetchJoin();
+
 
 }

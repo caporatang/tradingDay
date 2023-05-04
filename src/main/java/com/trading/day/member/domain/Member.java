@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity {
     private List<ItemBoard> itemBoards = new ArrayList<>();
 
     // Qna mapping
-    @JsonIgnore // --> Json으로 변환 과정중에 무한으로 참조가 순환문제를 해결 --> 무한 순환을 끊어줌
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Qna> qnas = new ArrayList<>();
 
