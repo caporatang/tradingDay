@@ -30,7 +30,7 @@ import java.util.Optional;
  *               김태일                       최초생성
  */
 @Repository
-public interface QnaRepository extends JpaRepository<Qna,Long>, QnaCustomRepository {
+public interface QnaRepository extends JpaRepository<Qna,Long>, QnaCustomRepository{
 
     Qna findByQnaId(Long QnaId);
     Qna findByQnaIdAndPwd(Long qnaId, String pwd);
@@ -46,6 +46,8 @@ public interface QnaRepository extends JpaRepository<Qna,Long>, QnaCustomReposit
 
     @Query("select q from Qna q join fetch q.answers")
     List<Qna> findAllByFetchJoin();
+
+
 
 
 }
