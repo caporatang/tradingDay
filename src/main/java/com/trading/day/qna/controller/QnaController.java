@@ -2,9 +2,13 @@ package com.trading.day.qna.controller;
 
 
 import com.trading.day.item.domain.ItemBoardDTO;
+import com.trading.day.qna.domain.QQnaDslDTO;
 import com.trading.day.qna.domain.Qna;
 import com.trading.day.qna.domain.QnaDTO;
+import com.trading.day.qna.domain.QnaDslDTO;
+import com.trading.day.qna.repository.QnaRepository;
 import com.trading.day.qna.service.QnaService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +42,26 @@ import java.util.List;
 public class QnaController {
 
     private final QnaService qnaService;
+
+    private final QnaRepository qnaRepository;
+
+
+
+    @ApiOperation("dsl writer paging 테스트")
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/dslwriterpaging")
+    public Page<QnaDslDTO> pagingDslTest(String writer,Pageable pageable) {
+        return qnaRepository.dslFindPagingWriter(writer, pageable);
+    }
+
+    @ApiOperation("dsl writer paging 테스트")
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/dslwritercountquery")
+    public Page<QnaDslDTO> pagingDslTest2(String writer,Pageable pageable) {
+        return qnaRepository.dslFindPagingWriter(writer, pageable);
+    }
+
+
 
     /**
      * methodName : findAll

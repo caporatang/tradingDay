@@ -1,6 +1,8 @@
 package com.trading.day.qna.repository;
 
 import com.trading.day.qna.domain.QnaDslDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,6 +22,6 @@ public interface QnaCustomRepository {
 
     List<QnaDslDTO> dslFindByQnaId(Long qnaId);
 
-
-
+    Page<QnaDslDTO> dslFindPagingWriter(String writer, Pageable pageable);
+    Page<QnaDslDTO> dslFindPagingWriterCountQuery(String writer, Pageable pageable);
 }

@@ -66,7 +66,4 @@ class QnaServiceTest {
             System.out.println("qnaDslDTO3 = " + qnaDslDTO3);
         }
     }
-
-
-
 }
