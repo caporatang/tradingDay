@@ -12,14 +12,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.SQLOutput;
 import java.util.List;
 
@@ -45,6 +50,41 @@ public class QnaController {
 
     private final QnaRepository qnaRepository;
 
+    @PersistenceContext
+    private EntityManager em;
+
+    @ApiOperation("query 테스트")
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/jpqlwriter")
+    public Object findQnaJpql(String writer) {
+        /*System.out.println("-----------!--------------");
+        List<Qna> result = em.createQuery("select q , a  from Qna q left join q.writer a where q.writer =:writer", Qna.class)
+                .setParameter("writer", writer)
+                .getResultList();
+        log.info("result = {}", result);
+        */
+
+        /*
+            @Query(value =
+            "select q, a "
+            + " from Qna q "
+            + " left outer join Answer a "
+            + " on a.writer = q "
+            + " where q.writer = :wrtier")
+    List<Qna> findBoardByWriter(@Param("writer") String writer);
+
+        @Query(value = "select q , a  from Qna q left join q.writer a where q.writer =:writer ")
+        Object findBoardByWriter(@Param("writer") String writer);
+        */
+
+        List<Qna> result = qnaRepository.findJpqlJoinTest(writer);
+        for (Qna qna : result) {
+            System.out.println("qna = " + qna);
+        }
+
+        return null;
+    }
+
 
 
     @ApiOperation("dsl writer paging 테스트")
@@ -58,7 +98,7 @@ public class QnaController {
     @PreAuthorize("isAnonymous()")
     @GetMapping("/dslwritercountquery")
     public Page<QnaDslDTO> pagingDslTest2(String writer,Pageable pageable) {
-        return qnaRepository.dslFindPagingWriter(writer, pageable);
+        return qnaRepository.dslFindPagingWriterCountQuery(writer, pageable);
     }
 
 

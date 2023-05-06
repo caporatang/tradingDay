@@ -48,6 +48,8 @@ public interface QnaRepository extends JpaRepository<Qna,Long>, QnaCustomReposit
     List<Qna> findAllByFetchJoin();
 
 
-
+    // List<Qna> result = em.createQuery("select q , a  from Qna q left join q.writer a where q.writer =:writer", Qna.class)
+    @Query(value = "select q , a  from Qna q left join q.writer a where q.writer =:writer")
+    List<Qna> findJpqlJoinTest(@Param("writer") String writer);
 
 }
